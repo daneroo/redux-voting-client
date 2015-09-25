@@ -25,6 +25,8 @@ export default React.createClass({
             null}
         </button>
       )}
+      <br />
+      <button onClick={() => window.location='#/results'}> Results </button>
     </div>;
   }
 });

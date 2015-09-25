@@ -1,9 +1,12 @@
 import React from 'react';
 import {addons} from 'react/addons'; 
 const {PureRenderMixin} = addons;
+import {connect} from 'react-redux';
 import Winner from './Winner';
+import * as actionCreators from '../action_creators';
 
-export default React.createClass({
+
+export const Results = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getPair: function() {
     return this.props.pair || [];
@@ -22,7 +25,7 @@ export default React.createClass({
           {this.getPair().map(entry =>
             <div key={entry} className="entry">
               <h1>{entry}</h1>
-              <div class="voteCount">
+              <div className ="voteCount">
                 {this.getVotes(entry)}
               </div>
             </div>
@@ -34,7 +37,21 @@ export default React.createClass({
                   onClick={this.props.next}>
             Next
           </button>
+          <button onClick={() => window.location='#/'}> Go to Vote </button>
         </div>
       </div>;
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    pair: state.getIn(['vote', 'pair']),
+    tally: state.getIn(['vote', 'tally']),
+    winner: state.get('winner')
+  }
+}
+
+export const ResultsContainer = connect(
+  mapStateToProps,
+  actionCreators
+)(Results);
